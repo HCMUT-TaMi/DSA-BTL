@@ -307,6 +307,8 @@ int Heap<T>::size(){
 template<class T>
 void Heap<T>::heapify(T array[], int size){
     //YOUR CODE IS HERE
+    //ADD CLEAR
+    clear(); 
     for(int i = 0; i < size; i++)
         this->push(array[i]);
 }

@@ -103,6 +103,9 @@ xmap<string, TensorDataset<double, double>*>* DSFactory::get_datasets_2cc(){
     xt::xarray<double> X_test = normalize(xt::view(test_table, xt::all(), xt::range(0,2)), mu, sigma  );
     xt::xarray<double> t_test = xt::view(test_table, xt::all(), -1);
     xt::xarray<double> T_test = onehot_enc(xt::cast<unsigned long>(t_test), 2);
+
+
+    cout << X_test << endl; 
     
   
     TensorDataset<double, double>* train_ds = new TensorDataset<double, double>(X_train, T_train);

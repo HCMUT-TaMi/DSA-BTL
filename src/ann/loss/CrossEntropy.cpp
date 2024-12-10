@@ -28,13 +28,14 @@ double CrossEntropy::forward(xt::xarray<double> X, xt::xarray<double> t){
     this->m_aCached_Ypred = X;
     this->m_aYtarget = t;
 
-    return cross_entropy(m_aCached_Ypred,m_aYtarget,true);
+    return cross_entropy(m_aCached_Ypred,m_aYtarget,this->m_eReduction == REDUCE_MEAN);
 }
 xt::xarray<double> CrossEntropy::backward() {
     //YOUR CODE IS HERE
     //  return the deltaY 
     xt::xarray<double> deltaY; 
     deltaY = -1 * (this->m_aYtarget / (this->m_aCached_Ypred + 1e-7));
+    if (this->m_eReduction == REDUCE_MEAN) deltaY /= this->m_aCached_Ypred.shape()[0];
 
-    return deltaY/deltaY.shape()[0]; 
+    return deltaY; 
 }

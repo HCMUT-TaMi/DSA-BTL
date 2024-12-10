@@ -32,15 +32,9 @@ $(BIN): $(OBJs)
 $(OBJs): $(SRCs)
 	$(MKDIR) $(dir $@)
 	$(CXX) $(CFLAGS) $(CPPFLAGS) -c $(subst $(OBJ), $(SRC), $(@:.o=.cpp)) -o $@
-# Here: repeat here for other other source codes
-
 
 test_heap: $(BIN)
-
 $(BIN): $(OBJs)
-
-
-
 
 # Clean rule to remove generated files
 clean:

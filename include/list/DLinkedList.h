@@ -252,7 +252,9 @@ public:
                     this->pNode = pList->head;
                 else
                     pNode = 0;
+
             }
+
             this->pList = pList;
         }
 

@@ -43,7 +43,7 @@ xt::xarray<double> diag_stack(xt::xarray<double> X){
     for(int r=0; r < nrows; r++){
         xt::xarray<double> x = xt::row(X, r);
         xt::xarray<double> D = xt::diag(x);
-        xt::view(DS, r) = D;
+        xt::view(DS, r) = D;    
     }
     return DS;
 }

@@ -2,46 +2,33 @@
 #include <iomanip>
 #include <sstream>
 #include <string>
+
+#include "include/list/listheader.h"
+#include "include/graph/DGraphModel.h"
+#include "include/graph/AbstractGraph.h"
+
 using namespace std;
-
-#include "include/hash/xMap.h"
-#include "demo/hash/xMapDemo.h"
-#include "demo/heap/HeapDemo.h"
-
-
-
-
-void hashTest()
-{
-    //test();
-    //simpleMap(); 
-    //hashDemo1();
-    //hashDemo3();
-    //hashDemo4();
-    //hashDemo5(); 
-    hashDemo9(); 
-    //hashDemo7(); 
-    //countryDemo(); 
+bool charComparator(int& lhs, int& rhs){
+    return lhs==rhs;
+}
+string vertex2str(int& v){
+    stringstream os;
+    os << v;
+    return os.str();
 }
 
-void heapTest()
+void test()
 {
-    //heapDemo3();
-    //heap18();
-    //simpleMinHeap();
-    //heapDemo1();
-    //heapDemo3();
-    //Classification:
-    //twoclasses_classification();
-    //threeclasses_classification();
+    DGraphModel<int> t(&charComparator,&vertex2str); 
+    t.add(1); 
+    t.add(2); 
+    t.add(3); 
+    cout << "HELLO"; 
 }
 
 
 int main(int argc, char** argv) {
-    
-    
-    hashTest(); 
-
+ 
+    test(); 
     return 0;
-
 }

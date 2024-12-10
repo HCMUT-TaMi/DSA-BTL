@@ -73,8 +73,6 @@ double_tensor MLPClassifier::predict(
 
     bool old_mode = this->m_trainable;
     this->set_working_mode(false);
-    
-    double_tensor results;
     bool first_batch = true;
     
     cout << "Prediction: Started" << endl;
@@ -85,18 +83,29 @@ double_tensor MLPClassifier::predict(
     int total_batch = pLoader->get_total_batch(); 
     int batch_idx = 1;
     unsigned long long nsamples = 0;
+    double_tensor results = xt::zeros<double>({pLoader->get_sample_count(),this->get_num_classes()});
+
     for(auto batch: *pLoader){
         //YOUR CODE IS HERE
-        if(first_batch)
-        {
-            results = this->forward(batch.getData());
-            first_batch = false; 
-        }
-        else results += this->forward(batch.getData()); 
+        double_tensor pred = this->forward(batch.getData());
+
+        // if(first_batch)
+        // {
+        //     y = pred;
+        //     first_batch = false; 
+        // }
+
+        // y[a:a+b][:] = res
+        xt::view(results, xt::range(nsamples, nsamples + batch.getData().shape()[0]), xt::all()) = pred;
+        nsamples += batch.getData().shape()[0];
+        info = fmt::format("{:<6d}/{:<12d}|{:<50d}\n",
+                        batch_idx++, total_batch, nsamples);
+        cout << info;
     }
+
     cout << "Prediction: End" << endl;
     results /= total_batch; 
-    
+
     //restore the old mode
     this->set_working_mode(old_mode);
     
@@ -157,14 +166,13 @@ void MLPClassifier::set_working_mode(bool trainable){
 //protected: for the training mode: begin
 double_tensor MLPClassifier::forward(double_tensor X){
     //YOUR CODE IS HERE
-    double_tensor x = X; 
     //  for(layer in layers): layer.forward()
     for(auto layer : m_layers)
     {
-        double_tensor y_hat = layer->forward(x);
-        x = y_hat; 
+        double_tensor y_hat = layer->forward(X);
+        X = y_hat; 
     }
-    return x; 
+    return X; 
 }
 void MLPClassifier::backward(){
     //YOUR CODE IS HERE
@@ -176,7 +184,6 @@ void MLPClassifier::backward(){
     for(DLinkedList<ILayer*>::BWDIterator it = m_layers.bbegin(); it != m_layers.bend(); it--)
     {
         ILayer*& layer = *it;
-        cout << layer->getname() << endl; 
         dy = layer->backward(dy); 
     }
 }

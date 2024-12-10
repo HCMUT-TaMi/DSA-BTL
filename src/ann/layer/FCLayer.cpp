@@ -153,6 +153,7 @@ xt::xarray<double> FCLayer::forward(xt::xarray<double> X) {
         this->m_aCached_X = X;
     }
     //  y = x*wT
+    
     xt::xarray<double> y_hat = xt::linalg::dot(X,wT);
 
     //  If there are b, then y = x*wT + b 
@@ -167,13 +168,13 @@ xt::xarray<double> FCLayer::backward(xt::xarray<double> DY) {
     //YOUR CODE IS HERE
     // dw = dy * x 
     // dx = dy * w
-    this->m_aGrad_W = xt::mean(outer_stack(DY,this->m_aCached_X),{0}); 
+    this->m_aGrad_W = xt::sum(outer_stack(DY,this->m_aCached_X),{0}); 
 
     unsigned long long batch_size = DY.shape()[0];
 
     this->m_unSample_Counter += batch_size; 
 
-    if(this->m_bUse_Bias) this->m_aGrad_b = xt::mean(DY,{0}); 
+    if(this->m_bUse_Bias) this->m_aGrad_b = xt::sum(DY,{0}); 
     
     xt::xarray<double> dx = xt::linalg::dot(DY,this->m_aWeights);
     return dx; 

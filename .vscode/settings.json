@@ -42,6 +42,21 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "cmath": "cpp",
-        "locale": "cpp"
+        "locale": "cpp",
+        "forward_list": "cpp",
+        "__config": "cpp",
+        "cstdio": "cpp",
+        "filesystem": "cpp",
+        "print": "cpp",
+        "typeinfo": "cpp",
+        "__assert": "cpp",
+        "__availability": "cpp",
+        "atomic": "cpp",
+        "compare": "cpp",
+        "sstream": "cpp",
+        "ios": "cpp",
+        "__node_handle": "cpp",
+        "bitset": "cpp",
+        "system_error": "cpp"
     }
 }
